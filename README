@@ -1,0 +1,43 @@
+The application utilizes Spring Boot features for dependency injection, data access with JPA, and REST API development.
+
+1. Model Class: Customer.java
+
+Represents a customer record with attributes like customerRef, customerName, addressLine1, etc.
+Contains getters and setters for each attribute to allow access and modification of data.
+
+2. Service Class: CsvProcessor.java
+
+Handles the processing of the CSV file.
+Takes the file path as input.
+Reads the CSV file line by line using a BufferedReader.
+Parses each line and extracts customer data into a Customer object.
+Delegates the saving of the Customer object to the CustomerService or sending as a JSOn to an external api.
+
+3. Service Class: CustomerService.java
+
+Provides methods for interacting with customer data.
+Injects the CustomerRepository to perform database operations.
+Defines a saveCustomer method that persists the provided Customer object to the database using the repository's save method.
+
+4. Repository Interface: CustomerRepository.java
+
+Extends the JpaRepository interface from Spring Data JPA.
+Provides pre-defined methods for CRUD operations (Create, Read, Update, Delete) on Customer entities.
+Defines a custom method findByCustomerRef to search for customers based on the customerRef attribute.
+
+5. Controller Class: CustomerController.java
+
+Provides REST API endpoints for interacting with customer data.
+Maps to the base URL path /customers.
+Defines a POST endpoint /upload that accepts a multipart file containing the CSV data.
+Uses the injected CsvProcessor to process the uploaded CSV file.
+Returns a success or error message based on the processing outcome.
+Defines a GET endpoint /customers/{customerRef} that accepts a customer reference as a path variable.
+Uses the injected CustomerService to retrieve customer information based on the reference.
+Returns the retrieved customer data in JSON format if found, or a not-found response otherwise.
+
+6. Main Class: DemoApplication.java
+
+The primary entry point for the Spring Boot application.
+Uses SpringApplication.run to launch the application.
+Enables auto-configuration of Spring beans and components.
